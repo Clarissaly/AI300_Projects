@@ -129,10 +129,10 @@ from sklearn.metrics import classification_report
 random_search_predictions = random_search.predict(X_test)
 
 # construct the confusion matrix
-confusion_matrix = confusion_matrix(y_test, random_search_predictions)
+confusionmatrix = confusion_matrix(y_test, random_search_predictions)
 
 # visualize the confusion matrix
-confusion_matrix
+confusionmatrix
 
 # print classification report 
 print(classification_report(y_test, random_search_predictions))
