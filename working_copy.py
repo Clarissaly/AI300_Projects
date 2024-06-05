@@ -137,5 +137,5 @@ confusion_matrix
 # print classification report 
 print(classification_report(y_test, random_search_predictions))
 
-# print the accuracy of the model after hyparameter tuning
-accuracy_score(y_test, random_search_predictions) 
+# print the auc score of the model after hyparameter tuning 
+roc_auc_score(y_test, random_search_predictions)
