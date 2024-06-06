@@ -76,28 +76,28 @@ auc_score = roc_auc_score(y_test, y_pred)
 print("CatBoost AUC Score:", auc_score)
 
 # LightGBM
-import lightgbm as lgb
 
-# Create a LightGBM dataset
-train_data = lgb.Dataset(X_train, label=y_train)
-test_data = lgb.Dataset(X_test, label=y_test)
-
-# Set the parameters for the model
-params = {
-    'objective': 'binary',
-    'metric': 'auc'
-}
-
-# Train the model
-model = lgb.train(params, train_data, valid_sets=[test_data])
-
-# Make predictions
-y_pred = model.predict(X_test)
+# Initialize a LightGBM Classifier with 'auc' as the evaluation metric 
+model = LGBMClassifier(metric='auc') 
+  
+# Fit the model on the training data 
+model.fit(X_train, y_train) 
+  
+# Make predictions on the training and validation sets 
+y_train = model.predict(X_train) 
+y_val = model.predict(X_test) 
 
 # Calculate the AUC score
 auc_score = roc_auc_score(y_test, y_pred)
 print("LightGBM AUC Score:", auc_score)
 
+# Feature Importance
+sorted_idx = model.feature_importances_.argsort()
+plt.figure(figsize=(10, 6))
+plt.barh(X_train.columns[sorted_idx], model.feature_importances_[sorted_idx])
+plt.xlabel("LightGBM Feature Importance")
+plt.title("Feature Importance Scores")
+plt.show()
 
 # Select the best performing model and input to estimators for RandomizedSearchCV
 
@@ -111,7 +111,7 @@ grid_parameters = {'n_estimators': [80, 90, 100, 110, 115, 120],
 
 
 # define the RandomizedSearchCV class for trying different parameter combinations
-random_search = RandomizedSearchCV(estimator=GradientBoostingClassifier(),
+random_search = RandomizedSearchCV(estimator=model,
                                    param_distributions=grid_parameters,
                                    cv=5,
                                    n_iter=150,
