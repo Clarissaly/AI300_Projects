@@ -88,7 +88,7 @@ y_train = model.predict(X_train)
 y_val = model.predict(X_test) 
 
 # Calculate the AUC score
-auc_score = roc_auc_score(y_test, y_pred)
+auc_score = roc_auc_score(y_test, y_val)
 print("LightGBM AUC Score:", auc_score)
 
 # Feature Importance
