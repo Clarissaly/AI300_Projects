@@ -10,13 +10,14 @@ for column in label_encoding_columns:
     else: 
         df_transformed[column] = df_transformed[column].map({'Yes': 1, 'No': 0}) 
 
-
+# convert city variable to string
+df['city'] = df['city'].astype(str)
 
 # one-hot encoding (categorical variables with more than two levels)
 one_hot_encoding_columns = ['internet_type', 'contract_type', 'payment_method']
 
-# encode categorical variables with more than two levels using one-hot encoding
-df_transformed = pd.get_dummies(df_transformed, columns = one_hot_encoding_columns)
+# encode categorical variables with more than two levels using one-hot encoding, dropping the first created column to avoid multicollinearity
+df_transformed = pd.get_dummies(df_transformed, columns = one_hot_encoding_columns, dtype=int, drop_first=True)
 
 
 # min-max normalization (numeric variables)
